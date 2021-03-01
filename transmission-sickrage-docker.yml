@@ -1,0 +1,46 @@
+version: "2.4"
+services:
+  transmission:
+    image: ghcr.io/linuxserver/transmission
+    container_name: transmission
+    environment:
+      - PUID=501
+      - PGID=501
+      - TZ=Asia/Kolkata
+    volumes:
+      - /Users/babli/Transmission/config:/config
+      - /Users/babli/Transmission/downloads:/downloads
+      - type: volume
+        source: app-volume
+        target: /downloads/complete
+    ports:
+      - 9091:9091
+      - 51413:51413
+      - 51413:51413/udp
+    expose:
+      - 9091
+      - 51413
+    restart: unless-stopped
+
+
+  sickrage:
+    image: ghcr.io/linuxserver/sickchill
+    container_name: sickchill
+    environment:
+      - PUID=501
+      - PGID=501
+      - TZ=Asia/Kolkata
+    volumes:
+      - /Users/babli/Sickrage/config:/config
+      - /Users/babli/Sickrage/downloads:/downloads
+      - /Users/babli/Sickrage/tv:/tv
+      - type: volume
+        source: app-volume
+        target: /mnt
+    ports:
+      - 8081:8081
+    expose:
+      - 8081
+    restart: unless-stopped
+volumes:
+  app-volume:
