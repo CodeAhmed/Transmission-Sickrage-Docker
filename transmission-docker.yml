@@ -1,0 +1,20 @@
+version: "2.1"
+services:
+  transmission:
+    image: ghcr.io/linuxserver/transmission
+    container_name: transmission
+    environment:
+      - PUID=501
+      - PGID=501
+      - TZ=Asia/Kolkata
+    volumes:
+      - /Users/babli/Transmission/config:/config
+      - /Users/babli/Transmission/downloads:/downloads
+    ports:
+      - 9091:9091
+      - 51413:51413
+      - 51413:51413/udp
+    expose:
+      - 9091
+      - 51413
+    restart: unless-stopped
